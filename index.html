@@ -344,22 +344,16 @@
   /* Vertical / Reel: 9:16 — narrow box, tall ratio */
   .vm-iframe-wrap.vm-vertical {
     padding-bottom: 0;
-    height: min(80vh, 560px);
+    height: min(75vh, 540px);
   }
   /* Wide: 16:9 horizontal video */
   .vm-iframe-wrap.vm-wide {
     padding-bottom: 56.25%;
   }
-  .vm-iframe-wrap iframe {
-    position: absolute;
-    top: -40px; left: 0;
-    width: 100%;
-    height: calc(100% + 40px);
-    border: none; display: block;
-  }
   /* Narrow modal box for vertical reels */
   .vm-box.vm-box-vertical {
-    max-width: 360px;
+    max-width: 340px;
+    width: min(340px, 92vw);
   }
   /* Wide modal for 16:9 horizontal video */
   .vm-box.vm-box-wide {
@@ -372,6 +366,12 @@
     }
     .vm-iframe-wrap.vm-wide {
       padding-bottom: 56.25%;
+    }
+    .vm-box.vm-box-vertical {
+      width: min(300px, 90vw);
+    }
+    .vm-iframe-wrap.vm-vertical {
+      height: min(70vh, 480px);
     }
   }
 
@@ -643,8 +643,9 @@
     </div>
     <div class="vm-iframe-wrap">
       <iframe id="vm-iframe" src="" allowfullscreen playsinline
-        allow="autoplay; fullscreen; picture-in-picture; web-share"
+        allow="autoplay; fullscreen; picture-in-picture; web-share; encrypted-media"
         referrerpolicy="no-referrer-when-downgrade"
+        sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-presentation"
         style="border:none;"></iframe>
     </div>
   </div>
@@ -652,11 +653,11 @@
 
 <script>
 (function(){
-  var overlay  = document.getElementById('vm-overlay');
-  var box      = document.querySelector('.vm-box');
-  var wrap     = document.querySelector('.vm-iframe-wrap');
-  var iframe   = document.getElementById('vm-iframe');
-  var titleEl  = document.getElementById('vm-title');
+  var overlay = document.getElementById('vm-overlay');
+  var box     = document.querySelector('.vm-box');
+  var wrap    = document.querySelector('.vm-iframe-wrap');
+  var iframe  = document.getElementById('vm-iframe');
+  var titleEl = document.getElementById('vm-title');
   var _sy = 0;
 
   function freezeScroll(){
@@ -677,12 +678,25 @@
   }
 
   /*
-    src   = full embed URL
-    label = video title
-    mode  = 'vertical' (9:16 reels) | 'wide' (19:6 event) | 'standard' (16:9, default)
+    Works on ALL platforms: iOS Safari, Android Chrome, macOS, Windows.
+    No redirects — modal opens everywhere.
+    Google Drive embed URLs work cross-platform when loaded inside an iframe
+    with the correct allow attributes. We strip any existing query params and
+    force ?rm=minimal so Drive shows only the video player.
+
+    src   = Google Drive /preview URL
+    label = video title shown in modal header
+    mode  = 'vertical' (9:16) | 'wide' (16:9) | 'standard' (default 16:9)
   */
   window.vmOpen = function(src, label, mode){
     mode = mode || 'standard';
+
+    /* Normalise: always use /preview with ?rm=minimal for clean embed */
+    var embedSrc = src.split('?')[0];
+    if(embedSrc.indexOf('/preview') === -1){
+      embedSrc = embedSrc.replace('/view', '/preview');
+    }
+    embedSrc += '?rm=minimal';
 
     /* Reset classes */
     box.className  = 'vm-box';
@@ -699,7 +713,9 @@
     titleEl.textContent = label;
     overlay.classList.add('open');
     freezeScroll();
-    setTimeout(function(){ iframe.src = src; }, 40);
+
+    /* Small delay so overlay paint completes before iframe loads */
+    setTimeout(function(){ iframe.src = embedSrc; }, 60);
   };
 
   window.vmClose = function(){
@@ -708,12 +724,18 @@
     thawScroll();
   };
 
+  /* Close on backdrop click */
   overlay.addEventListener('click', function(e){
     if(e.target === overlay) vmClose();
   });
+  /* Close on Escape */
   document.addEventListener('keydown', function(e){
     if(e.key === 'Escape') vmClose();
   });
+  /* iOS: prevent body scroll bleed-through inside modal */
+  overlay.addEventListener('touchmove', function(e){
+    if(e.target === overlay) e.preventDefault();
+  }, { passive: false });
 }());
 </script>
 </body>
