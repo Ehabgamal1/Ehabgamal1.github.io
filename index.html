@@ -226,6 +226,52 @@
     padding:8px; background:rgba(255,255,255,0.03);
   }
 
+  /* RESULTS */
+  .results-total{
+    display:flex; flex-direction:column; align-items:center; text-align:center;
+    margin-bottom:56px; padding-bottom:48px; border-bottom:1px solid var(--line);
+  }
+  .results-total strong{
+    font-family:'Space Grotesk',sans-serif; font-size:clamp(52px,9vw,96px); font-weight:700;
+    color:var(--accent); line-height:1; text-shadow:0 0 30px var(--accent-glow);
+  }
+  .results-total p{
+    margin-top:10px; font-size:13px; color:var(--muted); text-transform:uppercase; letter-spacing:0.1em;
+  }
+  .results-grid{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:18px;
+  }
+  @media(max-width:1024px){ .results-grid{grid-template-columns:repeat(3,1fr);} }
+  @media(max-width:700px){ .results-grid{grid-template-columns:repeat(2,1fr);} }
+  @media(max-width:460px){ .results-grid{grid-template-columns:1fr;} }
+  .result-card{
+    position:relative; border-radius:4px; overflow:hidden;
+    aspect-ratio:4/5; background:var(--bg-elevated); border:1px solid var(--line);
+    transition:transform .3s, border-color .3s;
+  }
+  .result-card:hover{transform:translateY(-4px); border-color:var(--accent);}
+  .result-card img{
+    position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+    opacity:0.85; transition:opacity .3s, transform .4s;
+  }
+  .result-card:hover img{opacity:1; transform:scale(1.04);}
+  .result-card::before{
+    content:''; position:absolute; inset:0; z-index:1;
+    background:linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.15) 42%, rgba(0,0,0,0.35) 100%);
+  }
+  .result-badge{
+    position:absolute; top:14px; left:14px; z-index:2; display:flex; align-items:center; gap:6px;
+    background:rgba(10,10,12,0.6); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
+    border:1px solid var(--line2); border-radius:20px; padding:6px 12px 6px 10px;
+  }
+  .result-badge .eye-ic{font-size:13px; line-height:1;}
+  .result-badge .view-count{
+    font-family:'Space Grotesk',sans-serif; font-size:16px; font-weight:700; color:var(--accent); letter-spacing:0.01em;
+  }
+  .result-info{position:absolute; left:0; right:0; bottom:0; z-index:2; padding:16px;}
+  .result-title{font-family:'Space Grotesk',sans-serif; font-size:17px; text-transform:uppercase; line-height:1.25;}
+  .result-cat{font-size:11px; color:var(--muted); margin-top:5px; text-transform:uppercase; letter-spacing:0.06em;}
+
   /* LIGHTBOX */
   .lightbox{
     position:fixed; inset:0; z-index:200; background:rgba(0,0,0,0.94);
@@ -309,6 +355,7 @@
     <a href="#about">About</a>
     <a href="#experience">Experience</a>
     <a href="#work">Work</a>
+    <a href="#results">Results</a>
     <a href="#skills">Skills</a>
     <a href="#contact">Contact</a>
   </div>
@@ -418,6 +465,7 @@
 
     <div class="filters">
       <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="ana-media-hub">ANA Media Hub</button>
       <button class="filter-btn" data-filter="real-estate">Real Estate</button>
       <button class="filter-btn" data-filter="healthcare">Healthcare</button>
       <button class="filter-btn" data-filter="events">Events &amp; Content</button>
@@ -425,7 +473,7 @@
     </div>
 
     <div class="work-grid" id="work-grid">
-      <!-- Events & Content -->
+      <!-- Horizontal videos -->
       <div class="work-card wide" data-cat="events" data-src="https://pub-4eea16f6fe6041f9a6c89892ab607fb8.r2.dev/events-dr-ibrahim.mp4" data-title="Dr. Ibrahim" data-cat-label="Events & Content">
         <div class="work-play">&#9654;</div>
         <div class="work-info"><div class="work-tc">TC 00:00:14:02</div><div class="work-title">Dr. Ibrahim</div><div class="work-cat">Live Event Coverage</div></div>
@@ -451,7 +499,15 @@
         <div class="work-info"><div class="work-tc">TC 00:00:54:11</div><div class="work-title">BMC</div><div class="work-cat">Brand Content</div></div>
       </div>
 
-      <!-- Real Estate -->
+      <!-- Vertical videos -->
+      <div class="work-card" data-cat="ana-media-hub" data-src="https://pub-4eea16f6fe6041f9a6c89892ab607fb8.r2.dev/DR-Turky-14-.mp4" data-title="Dr. Turky" data-cat-label="ANA Media Hub">
+        <div class="work-play">&#9654;</div>
+        <div class="work-info"><div class="work-tc">TC 00:00:07:14</div><div class="work-title">Dr. Turky</div><div class="work-cat">ANA Media Hub</div></div>
+      </div>
+      <div class="work-card" data-cat="ana-media-hub" data-src="https://pub-4eea16f6fe6041f9a6c89892ab607fb8.r2.dev/DR-Iyad-2-13-.mp4" data-title="Dr. Iyad" data-cat-label="ANA Media Hub">
+        <div class="work-play">&#9654;</div>
+        <div class="work-info"><div class="work-tc">TC 00:00:13:02</div><div class="work-title">Dr. Iyad</div><div class="work-cat">ANA Media Hub</div></div>
+      </div>
       <div class="work-card" data-cat="real-estate" data-src="https://pub-4eea16f6fe6041f9a6c89892ab607fb8.r2.dev/redact-false-promises-1.mp4" data-title="Dubai False Promises · 01" data-cat-label="Real Estate">
         <div class="work-play">&#9654;</div>
         <div class="work-info"><div class="work-tc">TC 00:01:02:11</div><div class="work-title">False Promises · 01</div><div class="work-cat">REDACT Real Estate · Dubai</div></div>
@@ -480,8 +536,10 @@
         <div class="work-play">&#9654;</div>
         <div class="work-info"><div class="work-tc">TC 00:01:42:20</div><div class="work-title">Unit Showcase · Pool</div><div class="work-cat">El-Wishy Residence · AI-Enhanced</div></div>
       </div>
-
-      <!-- Healthcare -->
+      <div class="work-card" data-cat="real-estate" data-src="https://pub-4eea16f6fe6041f9a6c89892ab607fb8.r2.dev/Elwishy-New-system.mp4" data-title="El-Wishy · New System" data-cat-label="Real Estate">
+        <div class="work-play">&#9654;</div>
+        <div class="work-info"><div class="work-tc">TC 00:01:49:08</div><div class="work-title">New System</div><div class="work-cat">REDACT Real Estate · El-Wishy Residence</div></div>
+      </div>
       <div class="work-card" data-cat="healthcare" data-src="https://pub-4eea16f6fe6041f9a6c89892ab607fb8.r2.dev/cmc-lips-filler.mp4" data-title="Lips Filler" data-cat-label="Healthcare">
         <div class="work-play">&#9654;</div>
         <div class="work-info"><div class="work-tc">TC 00:02:03:08</div><div class="work-title">Lips Filler</div><div class="work-cat">Canadian Medical Center · UAE</div></div>
@@ -498,8 +556,6 @@
         <div class="work-play">&#9654;</div>
         <div class="work-info"><div class="work-tc">TC 00:02:25:03</div><div class="work-title">Tattoo Removal</div><div class="work-cat">Canadian Medical Center · UAE</div></div>
       </div>
-
-      <!-- Freelance -->
       <div class="work-card" data-cat="freelance" data-src="https://pub-4eea16f6fe6041f9a6c89892ab607fb8.r2.dev/freelance-water-plus-iraq.mp4" data-title="Water+ Iraq" data-cat-label="Freelance">
         <div class="work-play">&#9654;</div>
         <div class="work-info"><div class="work-tc">TC 00:03:00:19</div><div class="work-title">Water+ Iraq</div><div class="work-cat">Freelance · Product Video</div></div>
@@ -520,6 +576,74 @@
 
     <div class="missing-note" id="missing-note" style="display:none; margin-top:18px;">
       Some clips aren't showing yet because their video files haven't been uploaded to the <code>/videos</code> folder in the repo. See the instructions below the portfolio for exact filenames.
+    </div>
+  </div>
+</section>
+
+<section id="results">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Proven Performance</div>
+      <h2>The Results</h2>
+      <p>Real view counts from published Instagram content — proof that the editing holds attention where it matters most: with the audience.</p>
+    </div>
+
+    <div class="results-total">
+      <strong>2.4M+</strong>
+      <p>Views Generated Across Campaigns</p>
+    </div>
+
+    <div class="results-grid">
+      <div class="result-card">
+        <img src="results/result-01.jpg" alt="Pediatric specialist introduction — RMC" loading="lazy">
+        <div class="result-badge"><span class="eye-ic">&#128065;</span><span class="view-count">835K</span></div>
+        <div class="result-info"><div class="result-title">Meet The Specialist</div><div class="result-cat">RMC · Instagram</div></div>
+      </div>
+      <div class="result-card">
+        <img src="results/result-02.jpg" alt="Pediatric specialist introduction, second cut — RMC" loading="lazy">
+        <div class="result-badge"><span class="eye-ic">&#128065;</span><span class="view-count">522K</span></div>
+        <div class="result-info"><div class="result-title">Meet The Specialist · 02</div><div class="result-cat">RMC · Instagram</div></div>
+      </div>
+      <div class="result-card">
+        <img src="results/result-03.jpg" alt="Diabetes health awareness — Canadian Medical Center" loading="lazy">
+        <div class="result-badge"><span class="eye-ic">&#128065;</span><span class="view-count">384K</span></div>
+        <div class="result-info"><div class="result-title">Diabetes Awareness</div><div class="result-cat">CMC · Instagram</div></div>
+      </div>
+      <div class="result-card">
+        <img src="results/result-04.jpg" alt="Clinic open day announcement — Canadian Medical Center" loading="lazy">
+        <div class="result-badge"><span class="eye-ic">&#128065;</span><span class="view-count">194K</span></div>
+        <div class="result-info"><div class="result-title">Open Day Announcement</div><div class="result-cat">CMC · Instagram</div></div>
+      </div>
+      <div class="result-card">
+        <img src="results/result-05.jpg" alt="Fasting and chronic diseases — Canadian Medical Center" loading="lazy">
+        <div class="result-badge"><span class="eye-ic">&#128065;</span><span class="view-count">118K</span></div>
+        <div class="result-info"><div class="result-title">Fasting &amp; Chronic Disease</div><div class="result-cat">CMC · Instagram</div></div>
+      </div>
+      <div class="result-card">
+        <img src="results/result-06.jpg" alt="Emsella treatment for urinary incontinence — Canadian Medical Center" loading="lazy">
+        <div class="result-badge"><span class="eye-ic">&#128065;</span><span class="view-count">113K</span></div>
+        <div class="result-info"><div class="result-title">Emsella Treatment Spotlight</div><div class="result-cat">CMC · Instagram</div></div>
+      </div>
+      <div class="result-card">
+        <img src="results/result-07.jpg" alt="Thyroid health education — Canadian Medical Center" loading="lazy">
+        <div class="result-badge"><span class="eye-ic">&#128065;</span><span class="view-count">96.9K</span></div>
+        <div class="result-info"><div class="result-title">Thyroid Health Tips</div><div class="result-cat">CMC · Instagram</div></div>
+      </div>
+      <div class="result-card">
+        <img src="results/result-08.jpg" alt="Back and neck pain causes — Canadian Medical Center" loading="lazy">
+        <div class="result-badge"><span class="eye-ic">&#128065;</span><span class="view-count">64.7K</span></div>
+        <div class="result-info"><div class="result-title">Back &amp; Neck Pain Causes</div><div class="result-cat">CMC · Instagram</div></div>
+      </div>
+      <div class="result-card">
+        <img src="results/result-09.jpg" alt="Executive brand interview — Freelance" loading="lazy">
+        <div class="result-badge"><span class="eye-ic">&#128065;</span><span class="view-count">51.6K</span></div>
+        <div class="result-info"><div class="result-title">Executive Interview</div><div class="result-cat">Freelance · Instagram</div></div>
+      </div>
+      <div class="result-card">
+        <img src="results/result-10.jpg" alt="Thyroid nodule awareness — Canadian Medical Center" loading="lazy">
+        <div class="result-badge"><span class="eye-ic">&#128065;</span><span class="view-count">31.3K</span></div>
+        <div class="result-info"><div class="result-title">Thyroid Nodule Awareness</div><div class="result-cat">CMC · Instagram</div></div>
+      </div>
     </div>
   </div>
 </section>
@@ -656,7 +780,7 @@
 
   /* ── scroll reveal ── */
   (function setupReveal(){
-    document.querySelectorAll('section > .wrap > *, .work-card, .skill-card, .tl-item').forEach(function(el){
+    document.querySelectorAll('section > .wrap > *, .work-card, .skill-card, .tl-item, .result-card').forEach(function(el){
       el.classList.add('reveal');
     });
     var obs = new IntersectionObserver(function(entries){
